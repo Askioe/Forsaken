@@ -1,6 +1,7 @@
 #include "includes.h"
 #include <ctime>
 #include <random>
+#include <Windows.h>
 
 
 inline std::string const BoolToString(bool b)
@@ -76,3 +77,5 @@ int main()
 	return 0;
 }
 
+
+bool WINAPI Dllmain()

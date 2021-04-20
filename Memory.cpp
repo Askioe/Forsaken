@@ -25,12 +25,10 @@ DWORD pID = NULL;
 DiscordRequests Discord;
 
 
-bool attatchProc(char* procName)
+bool attachProc(char* procName)
 {
-	//Defining size of structure so we can populate it
 	procEntry32.dwSize = sizeof(PROCESSENTRY32);
 
-	//Taking a snapshot of all processes running
 	hProcSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 
 	if (hProcSnap == INVALID_HANDLE_VALUE)
@@ -38,14 +36,10 @@ bool attatchProc(char* procName)
 		std::cout << "Failed to take snapshot of process list." << std::endl;
 		return false;
 	}
-
-	//While there is a next process in the snapshot
 	while (Process32Next(hProcSnap, &procEntry32))
 	{
-		//If the process we're looking for matches the current process in snapshot
 		if (!strcmp(procName, procEntry32.szExeFile))
 		{
-			//Outputting proc name and ID then getting all access to process and initialising a handle to the proc to we can read/write it's memory
 			std::cout << "Found process " << procEntry32.szExeFile << " with process ID " << procEntry32.th32ProcessID << std::endl;
 			hProc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, procEntry32.th32ProcessID);
 			pID = procEntry32.th32ProcessID;
@@ -54,7 +48,6 @@ bool attatchProc(char* procName)
 			{
 				std::cout << "Failed getting handle to process." << std::endl;
 			}
-			//Close handle to process snapshot then return true
 			CloseHandle(hProcSnap);
 			return true;
 		}
@@ -67,7 +60,6 @@ bool attatchProc(char* procName)
 
 DWORD getModule(LPSTR moduleName)
 {
-	//Taking snapshot of modules in process
 	hModuleSnap = INVALID_HANDLE_VALUE;
 	hModuleSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, pID);
 
@@ -78,34 +70,25 @@ DWORD getModule(LPSTR moduleName)
 		return 0;
 	}
 
-	//Defining structure size
 	modEntry32.dwSize = sizeof(MODULEENTRY32);
 
-	//Getting information of first module in snapshot
 	if (Module32First(hModuleSnap, &modEntry32))
 	{
-		//If the module we're looking for matches the module in snapshot
 		if (!strcmp(moduleName, modEntry32.szModule))
 		{
-			//Outputting module name and base address
 			std::cout << "Found module " << modEntry32.szModule << " with base address " << std::hex << (DWORD)modEntry32.modBaseAddr << std::endl;
-
-			//Close handle to process snapshot then return base address
+			
 			CloseHandle(hModuleSnap);
 			return (DWORD)modEntry32.modBaseAddr;
 		}
 	}
 
-	//While there is a next module in the snapshot
 	while (Module32Next(hModuleSnap, &modEntry32))
 	{
-		//If the module we're looking for matches the module in snapshot
 		if (!strcmp(moduleName, modEntry32.szModule))
 		{
-			//Outputting module name and base address
 			std::cout << "Found module " << modEntry32.szModule << " with base address 0x" << std::hex << std::uppercase << (DWORD)modEntry32.modBaseAddr << std::endl;
 
-			//Close handle to process snapshot then return base address
 			CloseHandle(hModuleSnap);
 			return (DWORD)modEntry32.modBaseAddr;
 		}
@@ -126,7 +109,6 @@ std::uint32_t find(const char* proc)
 		{
 			if (!strcmp(proc, pe.szExeFile)) {
 				CloseHandle(snapshot);
-				//mylog << "Found proc!\n";
 				return pe.th32ProcessID;
 			}
 		}
@@ -137,7 +119,7 @@ std::uint32_t find(const char* proc)
 
 void init()
 {
-	if (attatchProc(XOR((LPSTR)"csgo.exe")))
+	if (attachProc(XOR((LPSTR)"csgo.exe")))
 	{
 	baseAddress = getModule(XOR((LPSTR)"client.dll"));
 	engineAddress = getModule(XOR((LPSTR)"engine.dll"));

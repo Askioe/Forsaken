@@ -1,6 +1,7 @@
 #include "includes.h"
 #include "Ent.h"
 
+
 DWORD Entity::GetEntBase(int index)
 {
 	return RPM<DWORD>(baseAddress + offsets::dwEntityList + (index * 0x10));

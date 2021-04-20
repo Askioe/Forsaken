@@ -20,10 +20,8 @@ template<typename T> void WPM(SIZE_T address, T buffer)
 	WriteProcessMemory(hProc, (LPVOID)address, &buffer, sizeof(buffer), NULL);
 }
 
-//Attaches to process and gives ALL_ACCESS so you can rpm/wpm for your hack
-extern bool attatchProc(char* procName);
+extern bool attachProc(char* procName);
 
-//Gets the base address of a desired module within the process you've attached to, so you can offsetset from it
 extern DWORD getModule(LPSTR moduleName);
 
 
