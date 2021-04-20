@@ -1,0 +1,17 @@
+#pragma once
+#include "XOR.h"
+#include <windows.h>
+#include <tlhelp32.h>
+#include <iostream>
+#include <string>
+#include "LocalPlayer.h"
+#include "Memory.h"
+#include "offsets.hpp"
+#include "Math.h"
+#include <corecrt_math_defines.h>"
+#include <d3d9.h>
+#include <d3dx9.h>
+#include "DiscordConn.h"
+#include "State.h"
+#include "Cheats.h"
+#include "Ent.h"
