@@ -2,8 +2,8 @@
 A CSGO game enhancement that aims to help improve the endusers experience.
 
 # Dependencies
-Curl
-Windows.h
+* Curl
+* Windows.h
 
 # Information
 * Created to aid users with reaction timing, movement, and improving visibility of other players
