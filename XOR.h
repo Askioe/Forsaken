@@ -1,8 +1,5 @@
 #pragma once
 
-//Use this to xor encrypt string literals throughout your cheat to make it harder to reverse
-
-
 template <int XORSTART, int BUFLEN, int XREFKILLER>
 
 class XorStr
