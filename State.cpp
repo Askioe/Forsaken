@@ -5,5 +5,5 @@ namespace GlobalState {
 	bool triggerbotenable = false;
 	bool glowespenable = false;
 	bool noflash = false;
-	std::string webhook = ""
+	std::string webhook = "";
 }
